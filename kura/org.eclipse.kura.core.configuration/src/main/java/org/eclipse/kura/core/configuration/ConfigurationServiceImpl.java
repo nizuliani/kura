@@ -497,10 +497,16 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     }
 
     synchronized void registerComponentConfiguration(String pid, String servicePid, String factoryPid) {
+        
+        if (pid == null && factoryPid == null && servicePid != null) {
+        	pid = servicePid;
+        }
+        
         if (pid == null || servicePid == null) {
             s_logger.warn("Either kura.service.pid {} or service.pid {} are null", pid, servicePid);
             return;
         }
+        
         if (!m_allActivatedPids.contains(pid)) {
             // register the component instance
             s_logger.info("Registration of ConfigurableComponent {} by {}...", pid, this);

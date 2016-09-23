@@ -497,11 +497,6 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     }
 
     synchronized void registerComponentConfiguration(String pid, String servicePid, String factoryPid) {
-        
-        if (pid == null && factoryPid == null && servicePid != null) {
-        	pid = servicePid;
-        }
-        
         if (pid == null || servicePid == null) {
             s_logger.warn("Either kura.service.pid {} or service.pid {} are null", pid, servicePid);
             return;
@@ -1079,7 +1074,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
                             // set kura.service.pid if missing
                             Map<String, Object> newProperties = new HashMap<String, Object>(props);
                             if (!newProperties.containsKey(ConfigurationService.KURA_SERVICE_PID)) {
-                                newProperties.put(ConfigurationService.KURA_SERVICE_PID, newProperties.get(Constants.SERVICE_PID));
+                                newProperties.put(ConfigurationService.KURA_SERVICE_PID, config.getPid());
                             }
 
                             cfg.update(CollectionsUtil.mapToDictionary(newProperties));
